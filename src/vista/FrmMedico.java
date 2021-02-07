@@ -5,8 +5,13 @@
  */
 package vista;
 
+import controlador.Dao.MedicoDao;
+import controlador.listas.ListaS;
+import controlador.listas.Nodo;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 import vista.modeloTabla.TablaDoctores;
@@ -16,8 +21,12 @@ import vista.modeloTabla.TablaDoctores;
  * @author javie
  */
 public class FrmMedico extends javax.swing.JInternalFrame {
-TablaDoctores modelo = new TablaDoctores();
+
+    TablaDoctores modelo = new TablaDoctores();
+    private MedicoDao me = new MedicoDao();
     TableRowSorter trs;
+    
+
     /**
      * Creates new form frm_Citas
      */
@@ -25,42 +34,85 @@ TablaDoctores modelo = new TablaDoctores();
         initComponents();
         cargarTabla();
     }
-   
-    private void NoverCampos(){
-        jTextField1.setEnabled(false);
-        jTextField2.setEnabled(false);
-        jTextField3.setEnabled(false);
-        jTextField4.setEnabled(false);
-        jTextField5.setEnabled(false);
-        
+
+    private void limpiar() {
+        txtTelefono.setText("");
+        txtEmail.setText("");
+        txtNombre.setText("");
+        txtDireccion.setText("");
     }
-    private void verCampos(){
-        jTextField1.setEnabled(true);
-        jTextField2.setEnabled(true);
-        jTextField3.setEnabled(true);
-        jTextField4.setEnabled(true);
-        jTextField5.setEnabled(true);
-        
+
+    private void NoverCampos() {
+        txtTelefono.setEnabled(false);
+        txtEmail.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtDireccion.setEnabled(false);
+
     }
+
+    private void verCampos() {
+        txtTelefono.setEnabled(true);
+        txtEmail.setEnabled(true);
+        txtNombre.setEnabled(true);
+        txtDireccion.setEnabled(true);
+
+    }
+
     private void cargarTabla() {
-        //modelo.setLista(ed.listar());
+        modelo.setLista(me.listar());
         tblVerMedicos.setModel(modelo);
         tblVerMedicos.updateUI();
         NoverCampos();
     }
-    private void buscar(){
+
+    private void buscar() {
 
         txtbuscar.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent ke) {
                 //aqui busca por la columna numero 2 es decir el nombre
-                trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtbuscar.getText(), 2));                
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtbuscar.getText(), 1));
             }
 
         });
         trs = new TableRowSorter(modelo);
         tblVerMedicos.setRowSorter(trs);
     }
+
+    private void guardar() {
+
+        if (txtNombre.getText().isEmpty() || txtDireccion.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Llene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            me.setMedico(null);
+            me.getMedico().setNombre(txtNombre.getText());
+            me.getMedico().setDireccion(txtDireccion.getText());
+            me.getMedico().setTelefono(Integer.parseInt(txtTelefono.getText()));
+            me.getMedico().setCorreo(txtEmail.getText());
+
+            if (me.guardar()) {
+                JOptionPane.showMessageDialog(this, "Se ha guardado correctamente", "OK", JOptionPane.INFORMATION_MESSAGE);
+                cargarTabla();
+                verCampos();
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo guardar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    
+
+    private void seleccionar(MouseEvent evt) {
+        int seleccion = tblVerMedicos.rowAtPoint(evt.getPoint());
+        txtNombre.setText(String.valueOf(tblVerMedicos.getValueAt(seleccion, 1)));
+        txtDireccion.setText(String.valueOf(tblVerMedicos.getValueAt(seleccion, 2)));
+        txtTelefono.setText(String.valueOf(tblVerMedicos.getValueAt(seleccion, 3)));
+        txtEmail.setText(String.valueOf(tblVerMedicos.getValueAt(seleccion, 4)));
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,12 +130,10 @@ TablaDoctores modelo = new TablaDoctores();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -94,6 +144,7 @@ TablaDoctores modelo = new TablaDoctores();
         jButton5 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(0, 153, 204));
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -116,7 +167,7 @@ TablaDoctores modelo = new TablaDoctores();
             }
         });
 
-        jPanel2.setBackground(new java.awt.Color(153, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(0, 153, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setText("NOMBRE:");
@@ -126,8 +177,6 @@ TablaDoctores modelo = new TablaDoctores();
         jLabel6.setText("TELEFONO:");
 
         jLabel4.setText("EMAIL:");
-
-        jLabel5.setText("TIPO:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -140,18 +189,16 @@ TablaDoctores modelo = new TablaDoctores();
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3))
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                    .addComponent(txtEmail))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -161,19 +208,15 @@ TablaDoctores modelo = new TablaDoctores();
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jButton1.setText("GUARDAR");
@@ -190,7 +233,7 @@ TablaDoctores modelo = new TablaDoctores();
             }
         });
 
-        jPanel3.setBackground(new java.awt.Color(153, 204, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 153, 204));
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         tblVerMedicos.setModel(new javax.swing.table.DefaultTableModel(
@@ -204,6 +247,11 @@ TablaDoctores modelo = new TablaDoctores();
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblVerMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVerMedicosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblVerMedicos);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -224,8 +272,18 @@ TablaDoctores modelo = new TablaDoctores();
         );
 
         jButton3.setText("MODIFICAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("ELIMINAR");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("SALIR");
 
@@ -294,12 +352,24 @@ TablaDoctores modelo = new TablaDoctores();
     }//GEN-LAST:event_txtbuscarKeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        guardar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         verCampos();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tblVerMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVerMedicosMouseClicked
+        seleccionar(evt);
+    }//GEN-LAST:event_tblVerMedicosMouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -313,18 +383,16 @@ TablaDoctores modelo = new TablaDoctores();
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTable tblVerMedicos;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtbuscar;
     // End of variables declaration//GEN-END:variables
 }

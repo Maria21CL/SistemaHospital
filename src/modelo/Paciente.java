@@ -54,13 +54,7 @@ public class Paciente extends Persona{
         this.correo = correo;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    
 
     public int getTelefono() {
         return telefono;

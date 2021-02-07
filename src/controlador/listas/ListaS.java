@@ -48,6 +48,23 @@ public class ListaS {
     public boolean estaVacio() {
         return (this.cabecera == null);//(this.cabecera != null) ? false : true;
     }
+    public void EliminarXDato(String dato) {
+        
+        Nodo tmp = cabecera;
+        do {
+            if (tmp.getDato().equals(dato)) {
+                if (tmp == cabecera) {
+                    cabecera = cabecera.getSiguiente();
+                    System.out.println("se elimino el dato " + dato);
+                }
+            }
+            tmp = tmp.getSiguiente();
+        } while (tmp != cabecera);
+
+    }
+    public void eliminarTodaLista() {
+        cabecera = null;
+    }
 
     public Object extraer() {
         Object dato = null;

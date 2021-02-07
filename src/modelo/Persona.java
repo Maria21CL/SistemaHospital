@@ -15,7 +15,6 @@ public class Persona {
     public String apellido;
     public String direccion;
     public String correo;
-    public String tipo;
     public int telefono;
     public int cedula;
     private String Fecha_entrada;
@@ -54,14 +53,6 @@ public class Persona {
 
     public void setCorreo(String correo) {
         this.correo = correo;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public int getTelefono() {

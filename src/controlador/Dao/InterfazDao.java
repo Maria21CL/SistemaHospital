@@ -12,6 +12,7 @@ import controlador.listas.ListaS;
  */
 public interface InterfazDao {
     public void guardar(Object o) throws Exception;
-    public Boolean modificar(Object o);
+    public void eliminar(Object o) throws Exception;
+    public Boolean modificar(Object o, int accion);
     public ListaS listar();    
 }

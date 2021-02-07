@@ -32,7 +32,7 @@ public class PersonaDao extends AdaptadorDao {
             this.guardar(this.getPersona());
             return true;
         } catch (Exception e) {
-            System.out.println("Error en guardar Medico "+ e);
+            System.out.println("Error en guardar Paciente "+ e);
             return false;
         }
     }
@@ -41,9 +41,9 @@ public class PersonaDao extends AdaptadorDao {
         this.persona = persona;
     }
     
-    public ListaS ordenar(ListaS estudiantes, int tipo_ordenacion, String atributo) {
-        estudiantes.ordenar(tipo_ordenacion, atributo);
-        return estudiantes;
+    public ListaS ordenar(ListaS Estudiantes, int tipo_ordenacion, String atributo) {
+        Estudiantes.ordenar(tipo_ordenacion, atributo);
+        return Estudiantes;
     }
     
     

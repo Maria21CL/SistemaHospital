@@ -29,7 +29,7 @@ public class CuentaDao extends AdaptadorDao {
             this.guardar(this.getCuenta());
             return true;
         } catch (Exception e) {
-            System.out.println("Error en guardar estudiante "+ e);
+            System.out.println("Error en guardar Estudiante "+ e);
             return false;
         }
     }
@@ -38,9 +38,9 @@ public class CuentaDao extends AdaptadorDao {
         this.cuenta = cuenta;
     }
     
-    public ListaS ordenar(ListaS estudiantes, int tipo_ordenacion, String parametro) {
-        estudiantes.ordenar(tipo_ordenacion, parametro);
-        return estudiantes;
+    public ListaS ordenar(ListaS Estudiantes, int tipo_ordenacion, String parametro) {
+        Estudiantes.ordenar(tipo_ordenacion, parametro);
+        return Estudiantes;
     }
     
     public Cuenta inicioSesion(String usuario, String clave) {

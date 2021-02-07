@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import vista.modeloTabla.TablaPaciente;
 
@@ -19,9 +20,11 @@ import vista.modeloTabla.TablaPaciente;
  * @author javie
  */
 public class FrmPaciente extends javax.swing.JInternalFrame {
+
     private TablaPaciente modelo = new TablaPaciente();
     private PacienteDao ed = new PacienteDao();
     TableRowSorter trs;
+
     /**
      * Creates new form FrmPaciente
      */
@@ -30,8 +33,6 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
         cargarTabla();
         accesibilidad();
     }
-    
-    
 
     private void cargarTabla() {
         modelo.setLista(ed.listar());
@@ -90,6 +91,34 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
             }
         }
     }
+    int posicion = 0;
+
+    private void modificar() {
+        ed.modificar(ed, posicion);
+        if (ed.guardar()) {
+            JOptionPane.showMessageDialog(this, "Se ha actualizado correctamente", "OK", JOptionPane.INFORMATION_MESSAGE);
+            cargarTabla();
+            limpiar();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo actualizar", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    private void eliminar() {
+
+        ed.setPaciente(null);
+
+        if (ed.eliminarI(posicion)) {
+            JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente", "OK", JOptionPane.INFORMATION_MESSAGE);
+            cargarTabla();
+            limpiar();
+            accesibilidad();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 
     private void buscar() {
 
@@ -98,7 +127,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
             public void keyReleased(KeyEvent ke) {
                 //aqui busca por la columna numero 2 es decir el nombre
                 //ID/CEDULA/NOMBRES
-                trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtbuscar.getText(), 2));                
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtbuscar.getText(), 2));
             }
 
         });
@@ -134,6 +163,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
         lblTelfono = new javax.swing.JLabel();
         lblDireccion = new javax.swing.JLabel();
         lblPatologia = new javax.swing.JLabel();
+        lblApellido = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         txtCedula = new javax.swing.JTextField();
         txtapellidos = new javax.swing.JTextField();
@@ -189,7 +219,8 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel4.setBackground(new java.awt.Color(51, 0, 102));
@@ -260,6 +291,9 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
         lblPatologia.setForeground(new java.awt.Color(255, 255, 255));
         lblPatologia.setText("Patologia");
 
+        lblApellido.setForeground(new java.awt.Color(255, 255, 255));
+        lblApellido.setText("Apellido");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -267,15 +301,15 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNombres)
-                    .addComponent(lblSexo)
-                    .addComponent(lblCedula)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTelfono)
-                        .addComponent(lblDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblPatologia))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblNombres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblApellido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSexo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTelfono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPatologia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,18 +317,19 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(lblNombres)
                 .addGap(18, 18, 18)
+                .addComponent(lblApellido)
+                .addGap(18, 18, 18)
                 .addComponent(lblCedula)
                 .addGap(18, 18, 18)
                 .addComponent(lblSexo)
                 .addGap(18, 18, 18)
                 .addComponent(lblFecha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblTelfono)
-                .addGap(14, 14, 14)
-                .addComponent(lblDireccion)
                 .addGap(18, 18, 18)
-                .addComponent(lblPatologia)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(lblTelfono)
+                .addGap(18, 18, 18)
+                .addComponent(lblDireccion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(lblPatologia))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -312,7 +347,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
@@ -457,8 +492,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -468,13 +502,15 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     private void tbltablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbltablaMouseClicked
         int seleccion = tbltabla.rowAtPoint(evt.getPoint());
         //lblId.setText("ID: " + String.valueOf(tbltabla.getValueAt(seleccion, 0)));
+
         lblCedula.setText("Cedula: " + String.valueOf(tbltabla.getValueAt(seleccion, 1)));
         lblNombres.setText("Nombre: " + String.valueOf(tbltabla.getValueAt(seleccion, 2)));
-        lblTelfono.setText("Telefono: " + String.valueOf(tbltabla.getValueAt(seleccion, 3)));
-        lblDireccion.setText("Direccio: " + String.valueOf(tbltabla.getValueAt(seleccion, 4)));
-        lblSexo.setText("Sexo: " + String.valueOf(tbltabla.getValueAt(seleccion, 5)));
-        lblFecha.setText("Fecha: " + String.valueOf(tbltabla.getValueAt(seleccion, 6)));
-        lblPatologia.setText("Patología: " + String.valueOf(tbltabla.getValueAt(seleccion, 7)));
+        lblApellido.setText("Apellido: " + String.valueOf(tbltabla.getValueAt(seleccion, 3)));
+        lblTelfono.setText("Telefono: " + String.valueOf(tbltabla.getValueAt(seleccion, 4)));
+        lblDireccion.setText("Direccio: " + String.valueOf(tbltabla.getValueAt(seleccion, 5)));
+        lblSexo.setText("Sexo: " + String.valueOf(tbltabla.getValueAt(seleccion, 6)));
+        lblFecha.setText("Fecha: " + String.valueOf(tbltabla.getValueAt(seleccion, 7)));
+        lblPatologia.setText("Patología: " + String.valueOf(tbltabla.getValueAt(seleccion, 8)));
     }//GEN-LAST:event_tbltablaMouseClicked
 
     private void txtbuscarCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtbuscarCaretUpdate
@@ -486,7 +522,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtbuscarKeyTyped
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        eliminar();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
@@ -494,7 +530,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        modificar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -534,6 +570,7 @@ public class FrmPaciente extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblDireccion;
     private javax.swing.JLabel lblFecha;

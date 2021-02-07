@@ -39,8 +39,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Component id="jPanel2" max="32767" attributes="0"/>
           </Group>
           <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -74,7 +73,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="205" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -132,7 +132,7 @@
                       <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
                       <Component id="jButton2" alignment="1" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="33" max="32767" attributes="0"/>
               </Group>
               <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
           </Group>
@@ -226,17 +226,16 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblNombres" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblSexo" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblCedula" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="lblFecha" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblTelfono" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblDireccion" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="lblPatologia" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblNombres" max="32767" attributes="0"/>
+                          <Component id="lblApellido" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblCedula" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblSexo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblFecha" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblTelfono" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lblDireccion" max="32767" attributes="0"/>
+                          <Component id="lblPatologia" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -246,18 +245,19 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblNombres" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblApellido" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lblCedula" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lblSexo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lblFecha" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="lblTelfono" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                      <Component id="lblDireccion" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblTelfono" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblDireccion" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="17" max="32767" attributes="0"/>
                       <Component id="lblPatologia" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -317,6 +317,14 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Patologia"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblApellido">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Apellido"/>
               </Properties>
             </Component>
           </SubComponents>

@@ -33,13 +33,25 @@ public class PacienteDao extends AdaptadorDao {
             this.guardar(this.getPaciente());
             return true;
         } catch (Exception e) {
-            System.out.println("Error en guardar estudiante " + e);
+            System.out.println("Error en guardar Estudiante " + e);
             return false;
         }
     }
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
+    }
+
+    public boolean eliminarI(int posicion) {
+        try {
+            
+            this.getPaciente().setIdPaciente(Long.parseLong(String.valueOf(listar().tamano() + 1)));
+            this.eliminar(posicion);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error en eliminar Estudiante " + e);
+            return false;
+        }
     }
 
 }

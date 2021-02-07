@@ -30,12 +30,18 @@ public class AdaptadorDao implements InterfazDao {
     public void guardar(Object o) throws Exception {
         ListaS lista = listar();
         lista.insertar(o);
-        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO()+File.separatorChar+clazz.getSimpleName()+".json"));
-        
+        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
+
     }
 
     @Override
-    public Boolean modificar(Object o) {
+    public Boolean modificar(Object o, int accion) {
+        if (accion == 0) {
+            ListaS lista = listar();
+            lista.editar(accion, o);
+            conexion.getXtrStream().toXML(lista);
+
+        }
         return false;
     }
 
@@ -43,7 +49,7 @@ public class AdaptadorDao implements InterfazDao {
     public ListaS listar() {
         ListaS lista = new ListaS();
         try {
-            lista = (ListaS) conexion.getXtrStream().fromXML(new FileReader(conexion.getREPO() + File.separatorChar+ clazz.getSimpleName() + ".json"));
+            lista = (ListaS) conexion.getXtrStream().fromXML(new FileReader(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
             //Object obj = xtrStream.fromXML(new FileReader(url+File.separatorChar+"horario.json") );
 
         } catch (Exception e) {
@@ -51,5 +57,13 @@ public class AdaptadorDao implements InterfazDao {
             e.printStackTrace();
         }
         return lista;
+    }
+
+    @Override
+    public void eliminar(Object o) throws Exception {
+        ListaS lista = listar();
+        lista.EliminarXDato((String) o);
+        conexion.getXtrStream().toXML(lista, new FileOutputStream(conexion.getREPO() + File.separatorChar + clazz.getSimpleName() + ".json"));
+
     }
 }

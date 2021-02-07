@@ -43,9 +43,9 @@ public class RolDao extends AdaptadorDao {
         this.rol = rol;
     }
 
-    public ListaS ordenar(ListaS estudiantes, int tipo_ordenacion, String atributo) {
-        estudiantes.ordenar(tipo_ordenacion, atributo);
-        return estudiantes;
+    public ListaS ordenar(ListaS Estudiantes, int tipo_ordenacion, String atributo) {
+        Estudiantes.ordenar(tipo_ordenacion, atributo);
+        return Estudiantes;
     }
 /*
     public void crearRoles() {

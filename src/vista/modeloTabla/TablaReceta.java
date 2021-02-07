@@ -7,14 +7,14 @@ package vista.modeloTabla;
 
 import controlador.listas.ListaS;
 import javax.swing.table.AbstractTableModel;
-import modelo.Medico;
+import modelo.Receta;
 
 /**
  *
  * @author javie
  */
-public class TablaDoctores extends AbstractTableModel{
-    private ListaS lista = new ListaS();
+public class TablaReceta extends AbstractTableModel{
+     private ListaS lista = new ListaS();
 
     public ListaS getLista() {
         return lista;
@@ -26,7 +26,7 @@ public class TablaDoctores extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 5;
+        return 3;
     }
 
     @Override
@@ -36,14 +36,11 @@ public class TablaDoctores extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int i, int i1) {
-        Medico e = (Medico)lista.obtenerPorPosicion(i);
+        Receta e = (Receta)lista.obtenerPorPosicion(i);
         switch(i1) {
             case 0: return i+1;
             case 1: return e.getNombre();
-            case 2: return e.getDireccion();
-            case 3: return e.getCorreo();
-            case 4: return e.getTelefono();
-              
+            case 2: return e.getCantidad();
             default:return null;
         }
     }
@@ -51,11 +48,10 @@ public class TablaDoctores extends AbstractTableModel{
     @Override
     public String getColumnName(int column) {
         switch(column) {
-            case 0: return "Nro Carnet";
+            case 0: return "NRO RECETA";
             case 1: return "NOMBRE";
-            case 2: return "DIRECCION";
-            case 3: return "CORREO";
-            case 4: return "TELEFONO";
+            case 2: return "CANTIDAD";
+            
             default:return null;
         }
     }

@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 /**
  *
- * @author javie
+ * @author Javier y Maria
  */
 public class Binaria {
     public int busquedaBinaria(int vector[], int dato) {

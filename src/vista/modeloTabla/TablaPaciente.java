@@ -26,7 +26,7 @@ public class TablaPaciente extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 8;
+        return 9;
     }
 
     @Override
@@ -40,12 +40,13 @@ public class TablaPaciente extends AbstractTableModel{
         switch(i1) {
             case 0: return i+1;
             case 1: return e.getCedula();
-            case 2: return e.getNombre()+ " " + e.getApellido();
-            case 3: return e.getTelefono();
-            case 4: return e.getCiudad();
-            case 5: return e.getSexo();
-            case 6: return e.getFecha_entrada();
-            case 7: return e.getPatologia();  
+            case 2: return e.getNombre();
+            case 3: return e.getApellido();
+            case 4: return e.getTelefono();
+            case 5: return e.getCiudad();
+            case 6: return e.getSexo();
+            case 7: return e.getFecha_entrada();
+            case 8: return e.getPatologia();  
             default:return null;
         }
     }
@@ -55,12 +56,13 @@ public class TablaPaciente extends AbstractTableModel{
         switch(column) {
             case 0: return "Nro";
             case 1: return "CEDULA";
-            case 2: return "PACIENTE";
-            case 3: return "TELEFONO";
-            case 4: return "CIUDAD";
-            case 5: return "SEXO";
-            case 6: return "FECHA";
-            case 7: return "PATOLOGÍA";
+            case 2: return "NOMBRE";
+            case 3: return "APELLIDO";
+            case 4: return "TELEFONO";
+            case 5: return "CIUDAD";
+            case 6: return "SEXO";
+            case 7: return "FECHA";
+            case 8: return "PATOLOGÍA";
             default:return null;
         }
     }
